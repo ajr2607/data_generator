@@ -6,8 +6,9 @@ name = "pypi"
 [packages]
 pytest = "*"
 faker = "*"
-
-[dev-packages]
+mimesis = "*"
+datasynthesizer = "*"
+pydbgen = "*"
 
 [requires]
 python_version = "3.9"
