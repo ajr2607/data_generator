@@ -16,6 +16,7 @@ print(number_of_men)
 print(number_of_women)
 
 # stratify data
+# this is a test
 
 
 # generate more data
