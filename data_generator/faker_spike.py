@@ -1,6 +1,8 @@
 import pandas as pd
+import snowflake.connector
+from decouple import config
 from faker import Faker
-# from pathlib import Path
+from snowflake.connector.pandas_tools import write_pandas
 
 fake = Faker('en_GB')
 
@@ -8,10 +10,18 @@ exp = Faker(['en_GB'])
 data = [exp.profile() for i in range(100)]
 df = pd.DataFrame(data)
 
-# snowflake?
-write_pandas(object_with_connection_to_database, df, target_table_name)
-
-# filepath = Path('/data_generator/sample_data.csv')
-# filepath.parent.mkdir(parents=True, exist_ok=True)
-# df.to_csv(filepath)
-# df.to_csv(index=False)
+# Gets the version
+ctx = snowflake.connector.connect(
+    user=config('SNOWFLAKE_USER'),
+    password=config('SNOWFLAKE_PASSWORD'),
+    account=config('SNOWFLAKE_ACCOUNT')
+)
+cs = ctx.cursor()
+try:
+    cs.execute("SELECT current_version()")
+    one_row = cs.fetchone()
+    print(one_row[0])
+finally:
+    cs.close()
+    write_pandas(ctx, df, table_name='reference_data_generator', database='SANDBOX', schema=config('SNOWFLAKE_USER'))
+ctx.close()
