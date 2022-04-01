@@ -1,7 +1,8 @@
+from mimesis import Address
 from mimesis import Person
 from mimesis.enums import Gender
 from mimesis.locales import Locale
-from mimesis import Address
+
 gb = Address(locale=Locale.EN_GB)
 
 person = Person(Locale.EN)
