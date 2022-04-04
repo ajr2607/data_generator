@@ -30,8 +30,3 @@ cs.execute(sql)
 
 write_pandas(ctx, df, table_name='REFERENCE_DATA_GENERATOR', database='SANDBOX', schema=config('SNOWFLAKE_USER'),
              quote_identifiers=False)
-
-sql = "SELECT 1"
-cs.execute(sql)
-
-sql = "INSERT "
