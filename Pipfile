@@ -9,9 +9,11 @@ faker = "*"
 mimesis = "*"
 datasynthesizer = "*"
 pydbgen = "*"
-snowflake-connector-python = "*"
-python-decouple = "*"
+snowflake.connector-python = "*"
+decouple = "*"
 pyarrow = "==6.0.0"
+pandas = "*"
+
 
 [requires]
 python_version = "3.9"

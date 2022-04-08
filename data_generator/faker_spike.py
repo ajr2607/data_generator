@@ -4,11 +4,13 @@ from decouple import config
 from faker import Faker
 from snowflake.connector.pandas_tools import write_pandas
 
-fake = Faker('en_GB')
 
-exp = Faker(['en_GB'])
-data = [exp.profile() for i in range(100)]
-df = pd.DataFrame(data)
+def generate_sample_data_with_faker():
+    if 'data' not in locals():
+        fake = Faker('en_GB')
+        data = [fake.profile() for i in range(100)]
+        df = pd.DataFrame(data)
+
 
 # Gets the version
 ctx = snowflake.connector.connect(
