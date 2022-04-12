@@ -19,7 +19,7 @@ def generate_sample_data_with_faker():
 def flight_data_to_df():
     flight_data_path = Path('airports_extended.txt')
     read_flight_data_in = flight_data_path.read_text()
-    flight_df = pd.DataFrame(read_flight_data_in)  # TODO: relative path????
+    flight_df = pd.DataFrame(read_flight_data_in)
     return flight_df
 
 
