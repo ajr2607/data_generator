@@ -1,5 +1,4 @@
 import snowflake.connector
-from snowflake.connector.pandas_tools import write_pandas
 from decouple import config
 
 # Gets the version
