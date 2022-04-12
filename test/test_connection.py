@@ -1,14 +1,14 @@
 from unittest import mock
 
 import decouple
-import snowflake.connector
+from data_generator import connection
 
-ctx = snowflake.connector.connect(
-    user=decouple.config('SNOWFLAKE_USER'),
-    password=decouple.config('SNOWFLAKE_PASSWORD'),
-    account=decouple.config('SNOWFLAKE_ACCOUNT')
-)
-cs = ctx.cursor()
+# ctx = snowflake.connector.connect(
+#     user=decouple.config('SNOWFLAKE_USER'),
+#     password=decouple.config('SNOWFLAKE_PASSWORD'),
+#     account=decouple.config('SNOWFLAKE_ACCOUNT')
+# )
+# cs = ctx.cursor()
 
 
 @mock.patch('snowflake.connector.connect')  # TODO: continue testing figure out mock connection.
@@ -18,8 +18,9 @@ def test_connection(mock_snowflake_connector):
                   'account': 'test_account',
                   'role': 'test_role',
                   'warehouse': 'test_warehouse'}
-
-    mock_con = mock_snowflake_connector.return_value
-    mock_cur = mock_con.cursor.return_value
+    connection.get_connection()
+    # assert False
+    # mock_con = mock_snowflake_connector.return_value
+    # mock_cur = mock_con.cursor.return_value
     mock_snowflake_connector.assert_called_once_with(**test_creds)
 
