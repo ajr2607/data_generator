@@ -1,10 +1,10 @@
 from connection import get_connection
-from SQL_input import create_flight_table
+from sql_input import get_flight_table_ddl
 from utils import flight_data_into_table
 
 if __name__ == '__main__':
     get_connection()
 
-    create_flight_table()
+    get_flight_table_ddl()
 
     flight_data_into_table()

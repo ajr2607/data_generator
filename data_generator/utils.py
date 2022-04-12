@@ -1,10 +1,10 @@
 import pandas as pd
-from decouple import config
+import decouple
 from faker import Faker
 from snowflake.connector import pandas_tools
 from pathlib import Path
 
-from data_generator.SQL_input import get_faker_table_ddl, get_flight_table_ddl
+from data_generator.sql_input import get_faker_table_ddl, get_flight_table_ddl
 from data_generator.connection import get_connection
 
 
@@ -29,8 +29,9 @@ def faker_data_into_table():
     faker_df = generate_sample_data_with_faker()
     cs = ctx.cursor()
     cs.execute(create_faker_table_sql)
-    pandas_tools.write_pandas(ctx, faker_df, table_name='FAKER_REFERENCE_DATA_GENERATOR', database='SANDBOX',
-                              schema=config('SNOWFLAKE_USER'),
+    pandas_tools.write_pandas(ctx, faker_df, table_name='FAKER_REFERENCE_DATA_GENERATOR',
+                              database='SANDBOX',
+                              schema=decouple.config('SNOWFLAKE_USER'),
                               quote_identifiers=False)
 
 
@@ -41,5 +42,5 @@ def flight_data_into_table():
     cs = ctx.cursor()
     cs.execute(create_flight_table_sql)
     pandas_tools.write_pandas(ctx, flight_df, table_name='FLIGHT_REFERENCE_DATA_GENERATOR', database='SANDBOX',
-                              schema=config('SNOWFLAKE_USER'),
+                              schema=decouple.config('SNOWFLAKE_USER'),
                               quote_identifiers=False)
