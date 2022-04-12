@@ -10,3 +10,5 @@ def get_connection():
         database='SANDBOX',
         schema=config('SNOWFLAKE_USER')
     )
+
+    return ctx
