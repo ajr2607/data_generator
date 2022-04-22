@@ -69,3 +69,17 @@ def clean_flight_data():
 # flight_data_into_table()
 
 # data_into_table(get_faker_table_ddl(), flight_data_to_df(), 'FLIGHT_REFERENCE_DATA_GENERATOR')
+
+from data_generator.utils import clean_flight_data
+from collections import Counter
+import pandas as pd
+
+flight_data = clean_flight_data()
+
+c_timezone = Counter(flight_data['timezone'])
+timezone_counter = [(timezone_value, c_timezone[timezone_value] / len(flight_data['timezone']) * 100.0)
+                   for timezone_value, count in c_timezone.most_common()]
+timezone_counter_df = pd.DataFrame.from_records(list(dict(timezone_counter).items()), columns=['event', 'percentage'])
+timezone_total_percentage = timezone_counter_df['percentage'].sum()
+
+

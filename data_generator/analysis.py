@@ -1,5 +1,6 @@
 from collections import Counter
 import pandas as pd
+import numpy as np
 
 from data_generator.utils import clean_flight_data
 
@@ -26,15 +27,55 @@ country_counter_df = pd.DataFrame.from_records(list(dict(country_counter).items(
 country_total_percentage = country_counter_df['percentage'].sum()
 
 c_timezone = Counter(flight_data['timezone'])
-timezone_counter = [(timezone_name_value, c_timezone[timezone_name_value] / len(['timezone']) * 100.0)
-                    for timezone_name_value, count in c_timezone.most_common()]
+timezone_counter = [(timezone_value, round((c_timezone[timezone_value] / len(flight_data['timezone']) * 100.0)))
+                    for timezone_value, count in c_timezone.most_common()]
 timezone_counter_df = pd.DataFrame.from_records(list(dict(timezone_counter).items()), columns=['event', 'percentage'])
 timezone_total_percentage = timezone_counter_df['percentage'].sum()
 
 c_port = Counter(flight_data['type_of_port'])
-port_counter = [(port_value, c_port[port_value] / len(flight_data['type_of_port']) * 100.0)
+port_counter = [(port_value, round((c_port[port_value] / len(flight_data['type_of_port']) * 100.0)))
                 for port_value, count in c_port.most_common()]
 port_counter_df = pd.DataFrame.from_records(list(dict(port_counter).items()), columns=['event', 'percentage'])
 port_total_percentage = port_counter_df['percentage'].sum()
 
-print(timezone_counter_df)
+
+def timezone_percentage_limit_finder():  # TODO: repeat for other columns
+    percentage_limits_timezone = [0]  # TODO: general function needed
+    for i in range(len(timezone_counter_df)):
+        percentage_limit = (timezone_counter_df.iloc[i, 1] / 100)
+        percentage_limits_timezone.append(percentage_limit)
+    cumulative_percentage_limits_timezone = np.cumsum(percentage_limits_timezone)
+    return cumulative_percentage_limits_timezone
+
+
+def port_type_percentage_limit_finder():
+    percentage_limits_port_type = [0]
+    for i in range(len(port_counter_df)):
+        percentage_limit = port_counter_df.iloc[i, 1] / 100
+        percentage_limits_port_type.append(percentage_limit)
+    cumulative_percentage_limits_port_type = np.cumsum(percentage_limits_port_type)
+    return cumulative_percentage_limits_port_type
+
+def airport_name_percentage_limit_finder():
+    percentage_limits_airport_name = [0]
+    for i in range(len(airport_counter_df)):
+        percentage_limit = airport_counter_df.iloc[i, 1] / 100
+        percentage_limits_airport_name.append(percentage_limit)
+    cumulative_percentage_limits_airport_name = np.cumsum(percentage_limits_airport_name)
+    return cumulative_percentage_limits_airport_name
+
+def country_percentage_limit_finder():
+    percentage_limits_country = [0]
+    for i in range(len(country_counter_df)):
+        percentage_limit = country_counter_df.iloc[i, 1] / 100
+        percentage_limits_country.append(percentage_limit)
+    cumulative_percentage_limits_country = np.cumsum(percentage_limits_country)
+    return cumulative_percentage_limits_country
+
+def city_percentage_limit_finder():
+    percentage_limits_city = [0]
+    for i in range(len(city_counter_df)):
+        percentage_limit = city_counter_df.iloc[i, 1] / 100
+        percentage_limits_city.append(percentage_limit)
+    cumulative_percentage_limits_city = np.cumsum(percentage_limits_city)
+    return cumulative_percentage_limits_city

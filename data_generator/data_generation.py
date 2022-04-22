@@ -1,5 +1,9 @@
 from random import random
-from collections import Counter
+
+from analysis import port_type_percentage_limit_finder
+from data_generator.utils import clean_flight_data
+
+flight_data = clean_flight_data()
 
 # TODO: generate data in proportion with sample data
 generated_data_2d_list = [[], [], [], [], []]
@@ -7,14 +11,16 @@ generated_data_2d_list = [[], [], [], [], []]
 # Port data generation
 port_generated_list = generated_data_2d_list[0]
 
+percentage = port_type_percentage_limit_finder()
+
 
 def port_type_dist():
     x = random()
-    if x < 0.84:  # limits are from analysis counter dataframes. change to reference to those instead of values.
+    if percentage[0] < x <= percentage[1]:
         return port_generated_list.append('airport')
-    elif 0.84 < x <= 0.99:
+    elif percentage[1] < x <= percentage[2]:
         return port_generated_list.append('station')
-    elif 0.99 < x:
+    elif percentage[2] < x:
         return port_generated_list.append('port')
 
 
@@ -24,13 +30,10 @@ def generate_port_type(how_many):
     return port_generated_list
 
 
-# TODO: make configurable: use variables instead of values for percentage limits. TEST.
-test_generate = generate_port_type(1000)  # example
-
+test_generate = generate_port_type(100)  # example
 
 # TODO: airport, city, country, timezone
 # timezones
-
 
 
 # TODO: link data together: airport, city, country, timezone
