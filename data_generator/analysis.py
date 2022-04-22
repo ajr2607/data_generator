@@ -36,3 +36,5 @@ port_counter = [(port_value, c_port[port_value] / len(flight_data['type_of_port'
                 for port_value, count in c_port.most_common()]
 port_counter_df = pd.DataFrame.from_records(list(dict(port_counter).items()), columns=['event', 'percentage'])
 port_total_percentage = port_counter_df['percentage'].sum()
+
+print(timezone_counter_df)

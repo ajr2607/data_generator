@@ -10,7 +10,7 @@ port_generated_list = generated_data_2d_list[0]
 
 def port_type_dist():
     x = random()
-    if x < 0.84:
+    if x < 0.84:  # limits are from analysis counter dataframes. change to reference to those instead of values.
         return port_generated_list.append('airport')
     elif 0.84 < x <= 0.99:
         return port_generated_list.append('station')
@@ -29,6 +29,8 @@ test_generate = generate_port_type(1000)  # example
 
 
 # TODO: airport, city, country, timezone
+# timezones
+
 
 
 # TODO: link data together: airport, city, country, timezone
