@@ -1,5 +1,6 @@
 from random import random
 
+from analysis import port_counter_df
 from analysis import port_type_percentage_limit_finder
 from data_generator.utils import clean_flight_data
 
@@ -17,11 +18,21 @@ percentage = port_type_percentage_limit_finder()
 def port_type_dist():
     x = random()
     if percentage[0] < x <= percentage[1]:
-        return port_generated_list.append('airport')
+        return port_generated_list.append(port_counter_df.iloc[0, 0])
     elif percentage[1] < x <= percentage[2]:
-        return port_generated_list.append('station')
+        return port_generated_list.append(port_counter_df.iloc[1, 0])
     elif percentage[2] < x:
-        return port_generated_list.append('port')
+        return port_generated_list.append(port_counter_df.iloc[2, 0])
+
+
+# def timezone_dist():
+#     x = random()
+#     if percentage[0] < x <= percentage[1]:
+#         return port_generated_list.append('airport')
+#     elif percentage[1] < x <= percentage[2]:
+#         return port_generated_list.append('station')
+#     elif percentage[2] < x:
+#         return port_generated_list.append('port')
 
 
 def generate_port_type(how_many):
