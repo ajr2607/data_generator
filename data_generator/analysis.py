@@ -80,8 +80,3 @@ def city_percentage_limit_finder():
     cumulative_percentage_limits_city = np.cumsum(percentage_limits_city)
     return cumulative_percentage_limits_city
 
-
-print(len(timezone_percentage_limit_finder()))
-print(len(port_type_percentage_limit_finder()))
-
-print(port_counter_df.iloc[1,0])
