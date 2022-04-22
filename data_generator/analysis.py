@@ -1,7 +1,5 @@
-from random import random
 from collections import Counter
-
-import pandas as pd
+from random import random
 
 from data_generator.utils import flight_data_to_df
 
@@ -56,22 +54,28 @@ type_of_port = flight_data.iloc[:, 4].tolist()  # airport, station or port
 
 # TODO: generate data in proportion with sample data
 
+# Port data generation
 port_generated_list = []
+
 
 def port_type_dist():
     x = random()
-    if x < 0.85:
+    if x < 0.84:
         return port_generated_list.append('airport')
-    elif 0.85 < x < 0.99:
+    elif 0.84 < x <= 0.99:
         return port_generated_list.append('station')
-    else:
+    elif 0.99 < x:
         return port_generated_list.append('port')
+
 
 def generate_port_type(how_many):
     for i in range(how_many):
-        port_generated_list.append(port_type_dist())
+        port_type_dist()
+    return port_generated_list
 
 
-
+test_generate = generate_port_type(1000)  # TODO: make configurable: use variables instead of values for limits. TEST.
+count_test = Counter(test_generate)
+print(count_test)
 
 # TODO: link data together: airport, city, country, timezone
