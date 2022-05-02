@@ -40,43 +40,40 @@ port_total_percentage = port_counter_df['percentage'].sum()
 
 
 def timezone_percentage_limit_finder():  # TODO: repeat for other columns
-    percentage_limits_timezone = [0]  # TODO: general function needed
+    percentage_limits_timezone = []  # TODO: general function needed
     for i in range(len(timezone_counter_df)):
         percentage_limit = (timezone_counter_df.iloc[i, 1] / 100)
         percentage_limits_timezone.append(percentage_limit)
-    cumulative_percentage_limits_timezone = np.cumsum(percentage_limits_timezone)
-    return cumulative_percentage_limits_timezone
+    return percentage_limits_timezone
 
 
 def port_type_percentage_limit_finder():
-    percentage_limits_port_type = [0]
+    percentage_limits_port_type = []
     for i in range(len(port_counter_df)):
         percentage_limit = port_counter_df.iloc[i, 1] / 100
         percentage_limits_port_type.append(percentage_limit)
-    cumulative_percentage_limits_port_type = np.cumsum(percentage_limits_port_type)
-    return cumulative_percentage_limits_port_type
+    return percentage_limits_port_type
+
 
 def airport_name_percentage_limit_finder():
-    percentage_limits_airport_name = [0]
+    percentage_limits_airport_name = []
     for i in range(len(airport_counter_df)):
         percentage_limit = airport_counter_df.iloc[i, 1] / 100
         percentage_limits_airport_name.append(percentage_limit)
-    cumulative_percentage_limits_airport_name = np.cumsum(percentage_limits_airport_name)
-    return cumulative_percentage_limits_airport_name
+    return percentage_limits_airport_name
+
 
 def country_percentage_limit_finder():
-    percentage_limits_country = [0]
+    percentage_limits_country = []
     for i in range(len(country_counter_df)):
         percentage_limit = country_counter_df.iloc[i, 1] / 100
         percentage_limits_country.append(percentage_limit)
-    cumulative_percentage_limits_country = np.cumsum(percentage_limits_country)
-    return cumulative_percentage_limits_country
+    return percentage_limits_country
+
 
 def city_percentage_limit_finder():
-    percentage_limits_city = [0]
+    percentage_limits_city = []
     for i in range(len(city_counter_df)):
         percentage_limit = city_counter_df.iloc[i, 1] / 100
         percentage_limits_city.append(percentage_limit)
-    cumulative_percentage_limits_city = np.cumsum(percentage_limits_city)
-    return cumulative_percentage_limits_city
-
+    return percentage_limits_city

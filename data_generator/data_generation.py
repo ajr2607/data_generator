@@ -1,71 +1,41 @@
 from random import random
-
-from analysis import port_counter_df, timezone_counter_df
-from analysis import port_type_percentage_limit_finder
+import numpy as np
+from analysis import port_counter_df, timezone_counter_df, airport_counter_df, city_counter_df, country_counter_df
+from analysis import country_percentage_limit_finder, port_type_percentage_limit_finder, timezone_percentage_limit_finder, airport_name_percentage_limit_finder, city_percentage_limit_finder
 from data_generator.utils import clean_flight_data
 
 flight_data = clean_flight_data()
 
-# TODO: generate data in proportion with sample data
-generated_data_2d_list = [[], [], [], [], []]
+# TODO: port, airport, city, country, timezone
+# all
+generated_data_2d_list = [[],[],[],[],[]]
 
-# Port data generation
-port_generated_list = generated_data_2d_list[0]
-timezone_generated_list = generated_data_2d_list[1]
+# port type
+port_event = list(port_counter_df['event'])
+port_percentage = port_type_percentage_limit_finder()
+df_port_type_attempt_list = (np.random.choice(port_event, size=100, p=port_percentage))
 
-percentage = port_type_percentage_limit_finder()
+# airport
+airport_event = list(airport_counter_df['event'])
+airport_percentage = airport_name_percentage_limit_finder()
+df_airport_name_attempt_list = (np.random.choice(airport_event, size=100, p=airport_percentage))
 
+# city
+city_event = list(city_counter_df['event'])
+city_percentage = city_percentage_limit_finder()
+df_city_attempt_list = (np.random.choice(city_event, size=100, p=city_percentage))
 
-def port_type_dist():
-    x = random()
-    if percentage[0] < x <= percentage[1]:
-        return port_generated_list.append(port_counter_df.iloc[0, 0])
-    elif percentage[1] < x <= percentage[2]:
-        return port_generated_list.append(port_counter_df.iloc[1, 0])
-    elif percentage[2] < x:
-        return port_generated_list.append(port_counter_df.iloc[2, 0])
+# country
+country_event = list(country_counter_df['event'])
+country_percentage = country_percentage_limit_finder()
+df_country_attempt_list = (np.random.choice(country_event, size=100, p=country_percentage))
 
-
-def timezone_dist(): # TODO: finish all percentages - must be a way to use for loop to iterate through all 40 %s.
-    x = random()
-    if percentage[0] < x <= percentage[1]:
-        return timezone_generated_list.append(timezone_counter_df.iloc[0, 0])
-    elif percentage[1] < x <= percentage[2]:
-        return timezone_generated_list.append(timezone_counter_df.iloc[1, 0])
-    elif percentage[2] < x <= percentage[3]:
-        return timezone_generated_list.append(timezone_counter_df.iloc[2, 0])
-    elif percentage[3] < x <= percentage[4]:
-        return timezone_generated_list.append(timezone_counter_df.iloc[3, 0])
-    elif percentage[4] < x <= percentage[5]:
-        return timezone_generated_list.append(timezone_counter_df.iloc[4, 0])
-    elif percentage[5] < x <= percentage[6]:
-        return timezone_generated_list.append(timezone_counter_df.iloc[5, 0])
-    elif percentage[6] < x <= percentage[7]:
-        return timezone_generated_list.append(timezone_counter_df.iloc[6, 0])
-    elif percentage[7] < x <= percentage[8]:
-        return timezone_generated_list.append(timezone_counter_df.iloc[7, 0])
-    elif percentage[8] < x <= percentage[9]:
-        return timezone_generated_list.append(timezone_counter_df.iloc[8, 0])
+# timezone
+timezone_event = list(timezone_counter_df['event'])
+timezone_percentage = timezone_percentage_limit_finder()
+df_timezone_attempt_list = (np.random.choice(timezone_event, size=100, p=timezone_percentage))
 
 
-def generate_port_type(how_many):
-    for i in range(how_many):
-        port_type_dist()
-    return port_generated_list
-
-
-def generate_timezone(how_many):
-    for i in range(how_many):
-        timezone_dist()
-    return timezone_generated_list
-
-
-test_generate = generate_port_type(100)  # example
-
-test_generate_2 = generate_timezone(100)
-
-# TODO: airport, city, country, timezone
-# timezones
 
 
 # TODO: link data together: airport, city, country, timezone
