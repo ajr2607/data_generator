@@ -39,11 +39,22 @@ flight_data = clean_flight_data()
 # port_total_percentage = port_counter_df['percentage'].sum()
 
 
-def row_event_finder():
-    c_row_df = flight_data.value_counts()
+def row_numbers():
+    c_row_list = list(flight_data.value_counts())
+    return c_row_list
+
+
+def get_row_event():
+    c_row_df = pd.DataFrame(flight_data.value_counts())
+    row_event = c_row_df.index.tolist()
+    return row_event
+
+
+def row_event_perc_finder():
+    c_row_list = row_numbers()
     row_event_percs_list = []
-    for i in range(len(c_row_df)):
-        percs_row = c_row_df.iloc[i] / len(flight_data) * 100
+    for i in range(len(c_row_list)):
+        percs_row = c_row_list[i] / len(flight_data)
         row_event_percs_list.append(percs_row)
     return row_event_percs_list
 

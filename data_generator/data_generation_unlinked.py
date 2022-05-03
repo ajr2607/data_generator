@@ -1,19 +1,45 @@
 import numpy as np
 import pandas as pd
 
-from analysis import country_percentage_limit_finder, port_type_percentage_limit_finder, \
-    timezone_percentage_limit_finder, airport_name_percentage_limit_finder, city_percentage_limit_finder
-from analysis import port_counter_df, timezone_counter_df, airport_counter_df, city_counter_df, country_counter_df
+from analysis import row_event_perc_finder, get_row_event, row_numbers
 from data_generator.utils import clean_flight_data
 
 flight_data = clean_flight_data()
 
 # TODO: function
-# # all
-# generated_data_2d_list = []
+# rows attempt
+row_event_2d_list = []
+row_event = get_row_event()
 
 
+def convert_seq_to_list():
+    for item in range(len(row_event)):
+        row_event[item] = list(row_event[item])
+    return row_event
 
+
+rows_list = convert_seq_to_list()
+
+row_event_initial = list(range(0, len(row_event)))  # won't let me put a list as the row_event so using
+# row_event_initial as a placeholder and replacing with the list later
+new_rows_percs = row_event_perc_finder()
+new_rows_list = list(np.random.choice(row_event_initial, size=10000, p=new_rows_percs))  # generating integers to be used as index for 2d list to replace integers with lists
+
+
+def replace_placeholder_num_with_event():
+    gen_list_final_maybe = []  # create list
+    for i in range(len(new_rows_list)):
+        gen_list_final_maybe.append(rows_list[new_rows_list[i]])  # using generated integers as the index, append list from 2d list to gen_list_final_maybe
+    return gen_list_final_maybe
+
+
+generated_data_final = replace_placeholder_num_with_event()
+generated_data_final_df = pd.DataFrame(generated_data_final, columns=['airport_name', 'city_name', 'country_name', 'timezone', 'type_of_port'])
+
+print(len(generated_data_final))
+
+
+# print(new_rows_list[0])
 # # port type
 # port_event = list(port_counter_df['event'])
 # port_percentage = port_type_percentage_limit_finder()
