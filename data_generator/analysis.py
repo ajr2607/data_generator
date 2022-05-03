@@ -1,10 +1,6 @@
-from collections import Counter
-
 import pandas as pd
 
 from data_generator.utils import clean_flight_data
-
-flight_data = clean_flight_data()
 
 
 def row_numbers():
@@ -21,13 +17,13 @@ def get_row_event():
 
 
 def row_event_perc_finder():
+    flight_data = clean_flight_data()
     c_row_list = row_numbers()
     row_event_percs_list = []
     for i in range(len(c_row_list)):
         percs_row = c_row_list[i] / len(flight_data)
         row_event_percs_list.append(percs_row)
     return row_event_percs_list
-
 
 # c_airport = Counter(flight_data['airport_name'])
 # airport_counter = [(airport_name_value, c_airport[airport_name_value] / len(flight_data['airport_name']) * 100.0)
@@ -58,9 +54,6 @@ def row_event_perc_finder():
 #                 for port_value, count in c_port.most_common()]
 # port_counter_df = pd.DataFrame.from_records(list(dict(port_counter).items()), columns=['event', 'percentage'])
 # port_total_percentage = port_counter_df['percentage'].sum()
-
-
-# TODO: general function needed
 
 
 # def timezone_percentage_limit_finder():

@@ -4,9 +4,6 @@ import pandas as pd
 from analysis import row_event_perc_finder, get_row_event
 
 
-# TODO: function
-
-
 def convert_seq_to_list():
     row_event = get_row_event()
     for item in range(len(row_event)):

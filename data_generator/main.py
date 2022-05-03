@@ -1,10 +1,21 @@
-from connection import get_connection
-from sql_input import get_flight_table_ddl
-from utils import flight_data_into_table
+from utils import flight_data_to_df, clean_flight_data
+from analysis import row_numbers, get_row_event, row_event_perc_finder
+from data_generation import convert_seq_to_list, generate_placeholder_data, replace_placeholder_num_with_event
 
 if __name__ == '__main__':
-    get_connection()
 
-    get_flight_table_ddl()
+    flight_data_to_df()
 
-    flight_data_into_table()
+    clean_flight_data()
+
+    row_numbers()
+
+    get_row_event()
+
+    row_event_perc_finder()
+
+    convert_seq_to_list()
+
+    generate_placeholder_data()
+
+    replace_placeholder_num_with_event()

@@ -2,15 +2,6 @@ from collections import Counter
 from pathlib import Path
 
 import pandas as pd
-from faker import Faker
-
-
-def generate_sample_data_with_faker():
-    if 'faker_data' not in locals():  # TODO: is data in db not locals
-        fake = Faker('en_GB')
-        faker_data = [fake.profile() for i in range(100)]
-        faker_df = pd.DataFrame(faker_data)
-        return faker_df
 
 
 def flight_data_to_df():
