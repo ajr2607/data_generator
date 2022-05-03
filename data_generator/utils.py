@@ -4,6 +4,10 @@ import pandas as pd
 from faker import Faker
 
 
+def custom_round(x, base=5):
+    return int(base * round(float(x)/base))
+
+
 def generate_sample_data_with_faker():
     if 'faker_data' not in locals():  # TODO: is data in db not locals
         fake = Faker('en_GB')
@@ -30,6 +34,8 @@ def clean_flight_data():
     flight_data = flight_data[-flight_data.iloc[:, :].isin(['\\N'])]
     flight_data = flight_data.dropna()
     flight_data.columns = ['airport_name', 'city_name', 'country_name', 'timezone', 'type_of_port']
+    flight_data['timezone'].astype('float64')
+    flight_data.round(0)
     return flight_data
 
 # def faker_data_into_table():
