@@ -1,11 +1,6 @@
 from pathlib import Path
 
-import pandas as pd
 from faker import Faker
-
-
-def custom_round(x, base=5):
-    return int(base * round(float(x)/base))
 
 
 def generate_sample_data_with_faker():
@@ -17,7 +12,7 @@ def generate_sample_data_with_faker():
 
 
 def flight_data_to_df():
-    flight_file = Path('airports_extended.txt')  # TODO relative path with data file in sample folder.
+    flight_file = Path('airports_extended.txt')
     flight_data = pd.read_csv(flight_file, sep=",", header=None)
     flight_data.drop(flight_data.columns[0], axis=1, inplace=True)
     return flight_data
@@ -34,47 +29,8 @@ def clean_flight_data():
     flight_data = flight_data[-flight_data.iloc[:, :].isin(['\\N'])]
     flight_data = flight_data.dropna()
     flight_data.columns = ['airport_name', 'city_name', 'country_name', 'timezone', 'type_of_port']
-    flight_data['timezone'].astype('float64')
-    flight_data.round(0)
     return flight_data
 
-# def faker_data_into_table():
-#     ctx = get_connection()
-#     create_faker_table_sql = get_faker_table_ddl()
-#     faker_df = generate_sample_data_with_faker()
-#     cs = ctx.cursor()
-#     cs.execute(create_faker_table_sql)
-#     pandas_tools.write_pandas(ctx, faker_df, table_name='FAKER_REFERENCE_DATA_GENERATOR',
-#                               database='SANDBOX',
-#                               schema=decouple.config('SNOWFLAKE_USER'),
-#                               quote_identifiers=False)
-
-
-# def flight_data_into_table():
-#     ctx = get_connection()
-#     create_flight_table_sql = get_flight_table_ddl()
-#     flight_df = flight_data_to_df()
-#     cs = ctx.cursor()
-#     cs.execute(create_flight_table_sql)
-#     pandas_tools.write_pandas(ctx, flight_df, table_name='FLIGHT_REFERENCE_DATA_GENERATOR', database='SANDBOX',
-#                               schema=decouple.config('SNOWFLAKE_USER'),
-#                               quote_identifiers=False)
-#     return flight_table
-
-
-# def data_into_table(ddl_name, df, sql_table_name):  # TODO general function - in progress
-#     ctx = get_connection()
-#     cs = ctx.cursor()
-#     cs.execute(ddl_name)
-#     pandas_tools.write_pandas(ctx, df, table_name=sql_table_name,
-#                               database='SANDBOX',
-#                               schema=decouple.config('SNOWFLAKE_USER'),
-#                               quote_identifiers=False)
-
-
-# flight_data_into_table()
-
-# data_into_table(get_faker_table_ddl(), flight_data_to_df(), 'FLIGHT_REFERENCE_DATA_GENERATOR')
 
 from data_generator.utils import clean_flight_data
 from collections import Counter
@@ -87,5 +43,3 @@ timezone_counter = [(timezone_value, c_timezone[timezone_value] / len(flight_dat
                    for timezone_value, count in c_timezone.most_common()]
 timezone_counter_df = pd.DataFrame.from_records(list(dict(timezone_counter).items()), columns=['event', 'percentage'])
 timezone_total_percentage = timezone_counter_df['percentage'].sum()
-
-
