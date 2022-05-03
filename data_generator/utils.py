@@ -1,5 +1,7 @@
+from collections import Counter
 from pathlib import Path
 
+import pandas as pd
 from faker import Faker
 
 
@@ -30,16 +32,3 @@ def clean_flight_data():
     flight_data = flight_data.dropna()
     flight_data.columns = ['airport_name', 'city_name', 'country_name', 'timezone', 'type_of_port']
     return flight_data
-
-
-from data_generator.utils import clean_flight_data
-from collections import Counter
-import pandas as pd
-
-flight_data = clean_flight_data()
-
-c_timezone = Counter(flight_data['timezone'])
-timezone_counter = [(timezone_value, c_timezone[timezone_value] / len(flight_data['timezone']) * 100.0)
-                   for timezone_value, count in c_timezone.most_common()]
-timezone_counter_df = pd.DataFrame.from_records(list(dict(timezone_counter).items()), columns=['event', 'percentage'])
-timezone_total_percentage = timezone_counter_df['percentage'].sum()

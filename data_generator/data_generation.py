@@ -1,43 +1,40 @@
 import numpy as np
 import pandas as pd
 
-from analysis import row_event_perc_finder, get_row_event, row_numbers
-from data_generator.utils import clean_flight_data
+from analysis import row_event_perc_finder, get_row_event
 
-flight_data = clean_flight_data()
 
 # TODO: function
-# rows attempt
-row_event_2d_list = []
-row_event = get_row_event()
 
 
 def convert_seq_to_list():
+    row_event = get_row_event()
     for item in range(len(row_event)):
         row_event[item] = list(row_event[item])
     return row_event
 
 
-rows_list = convert_seq_to_list()
-
-row_event_initial = list(range(0, len(row_event)))  # won't let me put a list as the row_event so using
-# row_event_initial as a placeholder and replacing with the list later
-new_rows_percs = row_event_perc_finder()
-new_rows_list = list(np.random.choice(row_event_initial, size=10000, p=new_rows_percs))  # generating integers to be used as index for 2d list to replace integers with lists
+def generate_placeholder_data():
+    row_event = convert_seq_to_list()
+    row_event_initial = list(range(0, len(row_event)))  # won't let me put a list as the row_event so using
+    # row_event_initial as a placeholder and replacing with the list later
+    new_rows_percs = row_event_perc_finder()
+    new_rows_list = list(np.random.choice(row_event_initial, size=10000, p=new_rows_percs))
+    # generating integers to be used as index for 2d list to replace integers with lists
+    return new_rows_list
 
 
 def replace_placeholder_num_with_event():
-    gen_list_final_maybe = []  # create list
+    row_event = convert_seq_to_list()
+    new_rows_list = generate_placeholder_data()
+    gen_list_final_maybe = []
     for i in range(len(new_rows_list)):
-        gen_list_final_maybe.append(rows_list[new_rows_list[i]])  # using generated integers as the index, append list from 2d list to gen_list_final_maybe
-    return gen_list_final_maybe
-
-
-generated_data_final = replace_placeholder_num_with_event()
-generated_data_final_df = pd.DataFrame(generated_data_final, columns=['airport_name', 'city_name', 'country_name', 'timezone', 'type_of_port'])
-
-print(len(generated_data_final))
-
+        gen_list_final_maybe.append(row_event[new_rows_list[
+            i]])  # using generated integers as the index, append list from 2d list to gen_list_final_maybe
+    generated_data_final = replace_placeholder_num_with_event()
+    generated_data_final_df = pd.DataFrame(generated_data_final, columns=['airport_name', 'city_name', 'country_name',
+                                                                          'timezone', 'type_of_port'])
+    return generated_data_final_df
 
 # print(new_rows_list[0])
 # # port type
@@ -74,7 +71,6 @@ print(len(generated_data_final))
 # generated_df = generated_df.transpose()
 # generated_df.columns = ["Port", "Country", "City", "Timezone", "Airport"]
 
-# TODO: link data together: airport, city, country, timezone
 
 # generated_df_sort = generated_df.sort_values('Port')
 #
@@ -108,4 +104,3 @@ print(len(generated_data_final))
 # sorted_data_airports_only = data_airports_only.sort_values('country_name')
 # sorted_data_ports_only = ports_only.sort_values('country_name')
 # sorted_data_stations_only = stations_only.sort_values('city_name')
-

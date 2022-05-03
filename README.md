@@ -1,13 +1,15 @@
 ## Notes
 
-config.py - todo: make
+config.py - Todo: make
 
-generate.py - todo: make
+connection.py - made, in functions, Todo: tests
 
-connection.py - made, in functions, todo: write tests, exe
+utils.py - made, in functions, Todo: tests
 
-utils.py - made, in functions, todo: more and tests
+analysis.py - made, in functions, Todo: test
 
-analysis.py - todo: make
+data_generation.py - made, in functions, Todo: tests
 
-main.py - todo: make
+main.py - Todo: make, functions, tests
+
+post_generation_analysis.py - Todo: make, functions, tests
