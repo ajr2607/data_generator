@@ -1,25 +1,30 @@
-from collections import Counter
 from pathlib import Path
+
+import variable_file
 
 import pandas as pd
 
 
-def flight_data_to_df():
-    flight_file = Path('airports_extended.txt')
+def flight_data_to_df(sample_file_name):
+    flight_file = Path(sample_file_name)
     flight_data = pd.read_csv(flight_file, sep=",", header=None)
     flight_data.drop(flight_data.columns[0], axis=1, inplace=True)
     return flight_data
 
 
-def clean_flight_data():
-    flight_data = flight_data_to_df()
-    flight_data = flight_data.drop(flight_data.columns[[3, 4, 5, 6, 7, 9, 10, 12]], axis=1)
+def clean_flight_data(flight_data, column_indexes_to_keep, unwanted_list_airport_names, wanted_list_type_of_port,
+                      df_column_names):
+    flight_data = flight_data.drop(flight_data.columns[column_indexes_to_keep], axis=1)
     flight_data.columns = range(flight_data.columns.size)
-    unwanted_list_airport_names = ['All Airports', 'Railway Station', 'Train Station']
     flight_data = flight_data[-flight_data.iloc[:, 0].isin(unwanted_list_airport_names)]
-    wanted_list_type_of_port = ['airport', 'station', 'port']
     flight_data = flight_data[flight_data.iloc[:, 4].isin(wanted_list_type_of_port)]
     flight_data = flight_data[-flight_data.iloc[:, :].isin(['\\N'])]
     flight_data = flight_data.dropna()
-    flight_data.columns = ['airport_name', 'city_name', 'country_name', 'timezone', 'type_of_port']
+    flight_data.columns = df_column_names
     return flight_data
+
+
+flight_data = flight_data_to_df(variable_file.sample_file_name)
+
+print(clean_flight_data(flight_data, variable_file.column_indexes_to_keep, variable_file.unwanted_list_airport_names,
+                        variable_file.wanted_list_type_of_port, variable_file.df_column_names))

@@ -1,5 +1,7 @@
 import pandas as pd
 
+import variable_file
+
 from data_generator.utils import clean_flight_data
 
 

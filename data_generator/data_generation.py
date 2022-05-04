@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
 
+import variable_file
+
 from analysis import row_event_perc_finder, get_row_event
 
 
@@ -11,27 +13,32 @@ def convert_seq_to_list():
     return row_event
 
 
-def generate_placeholder_data():
+def generate_placeholder_data(number_of_rows_to_generate):
     row_event = convert_seq_to_list()
     row_event_initial = list(range(0, len(row_event)))  # won't let me put a list as the row_event so using
     # row_event_initial as a placeholder and replacing with the list later
     new_rows_percs = row_event_perc_finder()
-    new_rows_list = list(np.random.choice(row_event_initial, size=10000, p=new_rows_percs))
+    new_rows_list = list(np.random.choice(row_event_initial, size=number_of_rows_to_generate, p=new_rows_percs))
     # generating integers to be used as index for 2d list to replace integers with lists
     return new_rows_list
 
 
-def replace_placeholder_num_with_event():
+def replace_placeholder_num_with_event(number_of_rows_to_generate, df_column_names):
+
     row_event = convert_seq_to_list()
-    new_rows_list = generate_placeholder_data()
+    new_rows_list = generate_placeholder_data(number_of_rows_to_generate)
     gen_list_final_maybe = []
     for i in range(len(new_rows_list)):
-        gen_list_final_maybe.append(row_event[new_rows_list[
-            i]])  # using generated integers as the index, append list from 2d list to gen_list_final_maybe
+        gen_list_final_maybe.append(row_event[new_rows_list[i]])
+        # using generated integers as the index, append list from 2d list to gen_list_final_maybe
     generated_data_final = replace_placeholder_num_with_event()
-    generated_data_final_df = pd.DataFrame(generated_data_final, columns=['airport_name', 'city_name', 'country_name',
-                                                                          'timezone', 'type_of_port'])
+    generated_data_final_df = pd.DataFrame(generated_data_final, columns=df_column_names)
     return generated_data_final_df
+
+
+df_maybe = replace_placeholder_num_with_event(variable_file.df_column_names)
+
+print(df_maybe)
 
 # print(new_rows_list[0])
 # # port type
