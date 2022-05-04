@@ -2,25 +2,30 @@ import pandas as pd
 
 import variable_file
 
+from utils import flight_data_to_df
 from data_generator.utils import clean_flight_data
 
 
+flight_data = flight_data_to_df(variable_file.sample_file_name)
+flight_data = clean_flight_data(flight_data, variable_file.column_indexes_to_keep, variable_file.unwanted_list_airport_names,
+                        variable_file.wanted_list_type_of_port, variable_file.df_column_names)
+
+
 def row_numbers():
-    flight_data = clean_flight_data()
     c_row_list = list(flight_data.value_counts())
     return c_row_list
 
 
+c_row_list = row_numbers()
+
+
 def get_row_event():
-    flight_data = clean_flight_data()
     c_row_df = pd.DataFrame(flight_data.value_counts())
     row_event = c_row_df.index.tolist()
     return row_event
 
 
 def row_event_perc_finder():
-    flight_data = clean_flight_data()
-    c_row_list = row_numbers()
     row_event_percs_list = []
     for i in range(len(c_row_list)):
         percs_row = c_row_list[i] / len(flight_data)
