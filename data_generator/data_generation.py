@@ -1,8 +1,9 @@
 import numpy as np
 import pandas as pd
+import os
+from pathlib import Path
 
 import variable_file
-
 from analysis import row_event_perc_finder, get_row_event
 
 
@@ -24,21 +25,26 @@ def generate_placeholder_data(number_of_rows_to_generate):
 
 
 def replace_placeholder_num_with_event(number_of_rows_to_generate, df_column_names):
-
     row_event = convert_seq_to_list()
     new_rows_list = generate_placeholder_data(number_of_rows_to_generate)
-    gen_list_final_maybe = []
+    gen_list_final = []
     for i in range(len(new_rows_list)):
-        gen_list_final_maybe.append(row_event[new_rows_list[i]])
+        gen_list_final.append(row_event[new_rows_list[i]])
         # using generated integers as the index, append list from 2d list to gen_list_final_maybe
-    generated_data_final = replace_placeholder_num_with_event()
-    generated_data_final_df = pd.DataFrame(generated_data_final, columns=df_column_names)
+    generated_data_final_df = pd.DataFrame(gen_list_final, columns=df_column_names)
     return generated_data_final_df
 
 
-df_maybe = replace_placeholder_num_with_event(variable_file.df_column_names)
+def gen_data_to_csv(how_many_datasets, input_data):
+    path_name = Path('generated_files')
 
-print(df_maybe)
+    for number in range(how_many_datasets):
+        df = replace_placeholder_num_with_event(variable_file.number_of_rows_to_generate, variable_file.df_column_names)
+        filename = 'gen_data_' + str(number) + '.csv'
+        f = open(os.path.join(path_name, filename), 'w+')
+        f.write(str(df.to_csv()))
+        f.close()
+
 
 # print(new_rows_list[0])
 # # port type
