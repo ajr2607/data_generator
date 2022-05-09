@@ -19,8 +19,8 @@ col_row_list = row_numbers()
 
 
 def get_row_event():
-    c_row_df = pd.DataFrame(flight_data.value_counts())
-    row_event = c_row_df.index.tolist()
+    col_row_df = pd.DataFrame(flight_data.value_counts())
+    row_event = col_row_df.index.tolist()
     return row_event
 
 

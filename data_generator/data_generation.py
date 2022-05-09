@@ -35,15 +35,15 @@ def replace_placeholder_num_with_event(number_of_rows_to_generate, df_column_nam
     return generated_data_final_df
 
 
-def gen_data_to_csv(how_many_datasets, input_data):
+def gen_data_to_csv(how_many_datasets):
     path_name = Path('generated_files')
-
     for number in range(how_many_datasets):
         df = replace_placeholder_num_with_event(variable_file.number_of_rows_to_generate, variable_file.df_column_names)
-        filename = 'gen_data_' + str(number) + '.csv'
-        f = open(os.path.join(path_name, filename), 'w+')
-        f.write(str(df.to_csv()))
-        f.close()
+        file_name = 'gen_data_' + str(number) + '.csv'
+        with open(path_name.joinpath(file_name), 'w') as f:
+            f.write(str(df.to_csv()))
+            f.close()
+    return path_name
 
 
 # print(new_rows_list[0])
