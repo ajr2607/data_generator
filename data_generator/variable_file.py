@@ -11,5 +11,5 @@ df_column_names = ['airport_name', 'city_name', 'country_name', 'timezone', 'typ
 
 # data generation variables
 
-number_of_rows_to_generate = 9263
+number_of_rows_to_generate = 9317
 how_many_datasets = 10

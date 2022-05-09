@@ -1,13 +1,46 @@
-import pandas as pd
-from analysis import row_numbers, get_row_event, row_event_perc_finder
-import variable_file
-from utils import flight_data_to_df, clean_flight_data
+import statistics
+from collections import Counter
+from pathlib import Path
 
-# import
+import pandas as pd
+
+import utils
+import variable_file
+
+# sample data analysis
+flight_file = Path(variable_file.sample_file_name)
+
+raw_flight_data = utils.flight_data_to_df(variable_file.sample_file_name)
+
+flight_data = utils.clean_flight_data(raw_flight_data, variable_file.column_indexes_to_keep,
+                                      variable_file.unwanted_list_airport_names,
+                                      variable_file.wanted_list_type_of_port,
+                                      variable_file.df_column_names)
+
+number_of_unique_flight_rows = flight_data.drop_duplicates()
+
+flight_data = flight_data.astype({'timezone': float})
+
+flight_data_timezone_mean = statistics.fmean(flight_data['timezone'])
+
+port_event = Counter(flight_data['type_of_port'])
+print(port_event)
+
+# generated data
 
 gen_data_analysis = pd.read_csv('/home/amyrymer/PycharmProjects/data_generator/data_generator/generated_files/'
                                 'gen_data_0.csv')
 gen_data_analysis.drop(gen_data_analysis.columns[[0]], axis=1, inplace=True)
+
+unique_generated_data_rows = gen_data_analysis.drop_duplicates()
+
+gen_data_analysis = gen_data_analysis.astype({'timezone': float})
+
+gen_data_timezone_mean = statistics.fmean(gen_data_analysis['timezone'])
+
+gen_port_event = Counter(gen_data_analysis['type_of_port'])
+print(gen_port_event)
+
 # TODO: gen path
 
 # analyse
@@ -24,9 +57,6 @@ gen_data_analysis.drop(gen_data_analysis.columns[[0]], axis=1, inplace=True)
 # EXP: all possible rows present if no of generated rows large enough? technically must be bc probability
 
 # generated data as sample and analyse new gen data - same predictions
-
-
-
 
 
 # c_airport = Counter(flight_data['airport_name'])
