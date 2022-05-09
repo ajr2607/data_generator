@@ -1,10 +1,7 @@
-from pathlib import Path
-
 import pandas as pd
 
 
-def flight_data_to_df(sample_file_name):
-    flight_file = Path(sample_file_name)
+def flight_data_to_df(flight_file):
     initial_flight_data = pd.read_csv(flight_file, sep=",", header=None)
     initial_flight_data.drop(initial_flight_data.columns[0], axis=1, inplace=True)
     return initial_flight_data
@@ -20,9 +17,3 @@ def clean_flight_data(raw_flight_data, column_indexes_to_keep, unwanted_list_air
     flight_data = flight_data.dropna()
     flight_data.columns = df_column_names
     return flight_data
-
-
-# print(
-#     clean_flight_data(raw_flight_data, variable_file.column_indexes_to_keep,
-#     variable_file.unwanted_list_airport_names,
-#     variable_file.wanted_list_type_of_port, variable_file.df_column_names))
