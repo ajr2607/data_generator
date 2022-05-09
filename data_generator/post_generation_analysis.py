@@ -1,17 +1,19 @@
+import os.path
 import statistics
 from collections import Counter
 from pathlib import Path
 
 import pandas as pd
 
+import analysis
 import utils
 import variable_file
 
+# TODO: functions!
+
 # sample data analysis
 flight_file = Path(variable_file.sample_file_name)
-
 raw_flight_data = utils.flight_data_to_df(variable_file.sample_file_name)
-
 flight_data = utils.clean_flight_data(raw_flight_data, variable_file.column_indexes_to_keep,
                                       variable_file.unwanted_list_airport_names,
                                       variable_file.wanted_list_type_of_port,
@@ -24,40 +26,48 @@ flight_data = flight_data.astype({'timezone': float})
 flight_data_timezone_mean = statistics.fmean(flight_data['timezone'])
 
 port_event = Counter(flight_data['type_of_port'])
-print(port_event)
+
+timezone_event = Counter(flight_data['timezone'])
+
+c_row_list_flight = list(flight_data.value_counts())
+percentages_of_rows_flight = analysis.row_event_perc_finder(c_row_list_flight, flight_data)
+flight_num_rows_gen_to_give_all_poss_rows = 1 / percentages_of_rows_flight[-1]
 
 # generated data
+folder_location_generated_data = Path('generated_files')
 
-gen_data_analysis = pd.read_csv('/home/amyrymer/PycharmProjects/data_generator/data_generator/generated_files/'
-                                'gen_data_0.csv')
-gen_data_analysis.drop(gen_data_analysis.columns[[0]], axis=1, inplace=True)
+for number in range(len([name for name in os.listdir('generated_files')])):
+    file_name = 'gen_data_' + str(number) + '.csv'
+    generated_data = pd.read_csv('generated_files', './', file_name)  # TODO: not working yet but surely not far off
+    generated_data = generated_data.drop(generated_data.columns[[0]], axis=1, inplace=True)
+    generated_data_unique_rows = generated_data.drop_duplicated()
+    generated_data = generated_data.astype({'timezone': float})
+    generated_data_timezone_mean = statistics.fmean(generated_data['timezone'])
+    generated_port_event = Counter(generated_data['type_of_port'])
+    generated_timezone_event = Counter(generated_data['timezone'])
+    c_row_list_gen = list(generated_data.value_counts())
+    percentages_of_rows_gen = analysis.row_event_perc_finder(c_row_list_gen, generated_data)
+    generated_num_rows_gen_to_give_all_poss_rows = 1 / percentages_of_rows_gen[-1]
 
-unique_generated_data_rows = gen_data_analysis.drop_duplicates()
+# gen_data_analysis = pd.read_csv('/home/amyrymer/PycharmProjects/data_generator/data_generator/generated_files/'
+#                                 'gen_data_0.csv')
+# gen_data_analysis.drop(gen_data_analysis.columns[[0]], axis=1, inplace=True)
 
-gen_data_analysis = gen_data_analysis.astype({'timezone': float})
+# unique_generated_data_rows = gen_data_analysis.drop_duplicates()
 
-gen_data_timezone_mean = statistics.fmean(gen_data_analysis['timezone'])
+# gen_data_analysis = gen_data_analysis.astype({'timezone': float})
 
-gen_port_event = Counter(gen_data_analysis['type_of_port'])
-print(gen_port_event)
+# gen_data_timezone_mean = statistics.fmean(gen_data_analysis['timezone'])
 
-# TODO: gen path
+# gen_port_event = Counter(gen_data_analysis['type_of_port'])
+
+# gen_timezone_event = Counter(gen_data_analysis['timezone'])
+
+# c_row_list_gen = list(gen_data_analysis.value_counts())
+# percentages_of_rows_gen = analysis.row_event_perc_finder(c_row_list_gen, gen_data_analysis)
+# generated_num_rows_gen_to_give_all_poss_rows = 1 / percentages_of_rows_gen[-1]
 
 # analyse
-
-# sample to generated data
-
-# MUST BE: same proportion of duplicate rows
-
-
-# EXP: same proportions of entries in columns e.g. port types
-
-# EXP: same mean timezone
-
-# EXP: all possible rows present if no of generated rows large enough? technically must be bc probability
-
-# generated data as sample and analyse new gen data - same predictions
-
 
 # c_airport = Counter(flight_data['airport_name'])
 # airport_counter = [(airport_name_value, c_airport[airport_name_value] / len(flight_data['airport_name']) * 100.0)
