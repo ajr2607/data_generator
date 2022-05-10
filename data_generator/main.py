@@ -56,7 +56,6 @@ if __name__ == '__main__':
                                                                  placeholder_data, row_events,
                                                                  variable_file.df_column_names)
 
-
     save_loc_for_gen_data = Path('generated_files')
 
     dg.gen_data_to_csv(0, save_loc_for_gen_data, replace_placeholder0)

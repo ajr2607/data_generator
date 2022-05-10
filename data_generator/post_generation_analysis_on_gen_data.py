@@ -67,7 +67,6 @@ for number in range(len([name for name in os.listdir('generated_files')])):
     rows_gen_to_give_all_poss_rows = 1 / percentages_of_rows_gen[-1]
     number_generated_rows_needed_for_all_poss_rows.append(round(rows_gen_to_give_all_poss_rows))
 
-
 print(number_of_rows)
 print(number_of_unique_rows)
 print(mean_timezone)
