@@ -6,11 +6,13 @@ import utils
 import variable_file
 
 if __name__ == '__main__':
-    flight_file = Path(variable_file.sample_file_name)
+    flight_file = Path('/home/amyrymer/PycharmProjects/most_recent_data_generator/data_generator')
 
-    raw_flight_data = utils.flight_data_to_df(variable_file.sample_file_name)
+    raw_flight_data = utils.flight_data_to_df('gen_data_0.csv')
 
-    flight_data = utils.clean_flight_data(raw_flight_data, variable_file.column_indexes_to_keep,
+    keep = []
+
+    flight_data = utils.clean_flight_data(raw_flight_data, keep,
                                           variable_file.unwanted_list_airport_names,
                                           variable_file.wanted_list_type_of_port,
                                           variable_file.df_column_names)
