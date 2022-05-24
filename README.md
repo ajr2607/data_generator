@@ -1,1 +1,1 @@
-
+Only file needed to run is main or main_generated_data. All others are auxiliary or historic. Main is generating data from the initial sample data wheras main_generated_data gerated from the generated sample. Main must be run first.
